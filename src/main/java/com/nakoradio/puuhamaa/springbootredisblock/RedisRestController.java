@@ -20,7 +20,7 @@ public class RedisRestController {
   @GetMapping("/nested")
   public String nested() {
     return reactiveTmpl.opsForValue().get("/value1")
-        .map(value -> reactiveTmpl.opsForValue().get("/value2").block())
+        .map(it -> reactiveTmpl.opsForValue().get("/value1").block())
         .block();
   }
 }
