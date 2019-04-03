@@ -9,12 +9,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class RedisRestController {
 
   @Autowired
-  ReactiveStringRedisTemplate redisTemplate;
+  ReactiveStringRedisTemplate reactiveTmpl;
 
   @GetMapping("/simple")
   public String simple() {
-    return redisTemplate.opsForValue().get("/simple").block();
+    return reactiveTmpl.opsForValue().get("/value1").block();
   }
 
 
+  @GetMapping("/nested")
+  public String nested() {
+    return reactiveTmpl.opsForValue().get("/value1")
+        .map(value -> reactiveTmpl.opsForValue().get("/value2").block())
+        .block();
+  }
 }
